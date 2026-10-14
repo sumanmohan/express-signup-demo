@@ -1,15 +1,16 @@
-document.getElementById('signup-form').addEventListener('submit', async (event) => {
-  event.preventDefault();
+const emailInput = document.getElementById('email');
+const submitBtn = document.getElementById('submit-btn');
+const emailError = document.getElementById('email-error');
 
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-
-  const response = await fetch('/signup', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password }),
-  });
-
-  const data = await response.json();
-  document.getElementById('result').textContent = data.message;
+emailInput.addEventListener('input', () => {
+  const isValid = isValidEmail(emailInput.value);
+  if (!isValid) {
+    emailError.textContent = 'Please enter a valid email address';
+    emailError.style.display = 'block';
+    submitBtn.disabled = true;
+  } else {
+    emailError.textContent = '';
+    emailError.style.display = 'none';
+    submitBtn.disabled = false;
+  }
 });
